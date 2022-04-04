@@ -131,7 +131,22 @@ public class gtconstructor {
         }
 
     }
-
+    public static void levelOrderPlain(Node node) {
+        Queue<Node> mq= new ArrayDeque<>();
+        mq.add(node);
+        
+        while (mq.size()>0) {
+            int currSize=mq.size();
+            for(int i=0;i<currSize;i++){
+                Node t=mq.remove();
+                System.out.print(t.data+"\t");
+                for (Node childNode : t.children) {
+                    mq.add(childNode);                    
+                }
+            } 
+            System.out.println();           
+        }
+    }
     public static void levelOrderArrayListZZ(Node node) {
         Stack<Node> ml = new Stack<>();
         Stack<Node> sl = new Stack<>();
@@ -185,6 +200,7 @@ public class gtconstructor {
             levelOrderLinewise(root);
             levelOrderArrayList(root);
             levelOrderArrayListZZ(root);
+            levelOrderPlain(root);
             // display(root);
         }
     }

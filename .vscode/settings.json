@@ -1,6 +1,12 @@
 {
     "java.project.sourcePaths": [
-        "genericTrees"
+        "genericTrees",
+        "recursionAndBacktracking-Lvl2"
     ],
-    "java.help.shareDiagnostics": true
+    "java.help.shareDiagnostics": true,
+    "C_Cpp.errorSquiggles": "Disabled",
+    "files.associations": {
+        "*.m": "matlab",
+        "iostream": "cpp"
+    }
 }

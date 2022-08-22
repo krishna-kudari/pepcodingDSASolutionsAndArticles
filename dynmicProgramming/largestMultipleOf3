@@ -1,0 +1,76 @@
+import java.util.*;
+public class Main {
+    public static int getSum(ArrayList<Integer> digits) {
+        int sum = 0;
+        for(int i : digits){
+            if(i != -1)sum += i;
+        }
+        return sum;
+    }
+    public static String getAns(ArrayList<Integer> digits){
+        StringBuilder ans = new StringBuilder();
+        
+        for(int dig : digits){
+            ans.append(dig);
+        }
+        return ans.toString();
+    }
+    public static boolean handleOne(ArrayList<Integer> digits , int rem){
+        boolean f = false;
+        int n = digits.size();
+        for(int i = n-1 ; i >= 0 ; i--){
+            if(digits.get(i)%3 == rem){
+                digits.remove(i);
+                f = true;
+                break;
+            }
+        }
+        return f;
+    }
+    public static int handleTwo(ArrayList<Integer> digits , int rem){
+        int n = digits.size();
+        int cnt = 0;
+        for(int i = n-1 ; i >= 0 ; i--){
+            if(digits.get(i)%3 == rem){
+                digits.remove(i);
+                cnt++;
+                if(cnt == 2)break;
+            }
+        }
+        return cnt;
+    }
+    public static String largestMultipleOfThree(ArrayList<Integer> digits) {
+        // write your code here
+        Collections.sort(digits , Collections.reverseOrder());
+        int sum = getSum(digits);
+        if(sum %3 == 0){
+            if(digits.get(0) == 0)return "0";
+            return getAns(digits);
+        }else if( sum%3 == 1){
+            boolean ideal = handleOne(digits , 1);
+            if(ideal) return getAns(digits);
+            else {
+                int cnt = handleTwo(digits , 2);
+                if(cnt == 2)return getAns(digits);
+                return "";
+            }
+        }else{
+            boolean ideal = handleOne(digits , 2);
+            if(ideal) return getAns(digits);
+            else {
+                int cnt = handleTwo(digits , 1);
+                if(cnt == 2)return getAns(digits);
+                return "";
+            }
+        }
+    }
+    public static void main(String args[]) {
+        Scanner scn=new Scanner(System.in);
+        int n = scn.nextInt();
+    	ArrayList<Integer> digits=new ArrayList<>();
+    	for(int i = 0 ; i < n; i++){
+    		digits.add(scn.nextInt());
+    	}
+        System.out.println(largestMultipleOfThree(digits));
+    }
+}

@@ -1,0 +1,33 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	public static int solution(int n){
+		// write your code here
+		long [] dp = new long[n+1];
+		dp[0] = dp[1] = dp[2] = 1;
+		dp[3] = 1;
+		for(int i = 4 ; i < n+1 ; i++){
+			long num = 0;
+			int l = 2 , r = i-1;
+			while(l < r){
+				num+= (dp[l]*dp[r]);
+				l++;
+				r--;
+			}
+			num*=2;
+			if(l == r)num+=dp[l]*dp[r];
+			dp[i] = num;
+		}
+		// System.out.println(Arrays.toString(dp));
+		return (int)dp[n];
+	 }
+	 
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		int n = scn.nextInt();
+		System.out.println(solution(n));
+	}
+
+}

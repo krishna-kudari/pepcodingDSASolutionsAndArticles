@@ -1,0 +1,48 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	public static int minPalindromicCut(String s) {
+		//write your code here
+		int n = s.length();
+		boolean [][] dp = new boolean[n][n];
+		for (int g = 0; g < n; g++) {
+			
+			int i = 0 , j = g;
+			for( ; j < n ; j++ , i++){
+				if(g == 0){
+					dp[i][j] = true;
+				}else if(g== 1){
+					if(s.charAt(i) == s.charAt(j))dp[i][j] = true;
+				}else{
+					dp[i][j] = (s.charAt(i) == s.charAt(j)) && dp[i+1][j-1];
+				}
+			}
+		}
+		// System.out.println(Arrays.deepToString(dp));
+		int [] pp = new int[n];
+		pp[0] = 0;
+		pp[1] = s.charAt(0) == s.charAt(1) ? 0 : 1;
+		for (int i = 2; i < n; i++) {
+			pp[i] = i;
+			if(dp[0][i]){
+				pp[i] = 0;
+				continue;
+			}
+			for (int k = i-1; k >=0 ; k--) {
+				if(dp[k+1][i]){
+					pp[i] = Math.min(pp[i] , pp[k]+1);
+				}
+			}
+		}
+		// System.out.println(Arrays.toString(pp));
+		return pp[n-1];
+	}
+
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		String str = scn.nextLine();
+		System.out.println(minPalindromicCut(str));
+	}
+}

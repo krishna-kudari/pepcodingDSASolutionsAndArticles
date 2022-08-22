@@ -1,0 +1,38 @@
+import java.util.*;
+ 
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+			int n = scn.nextInt();
+			int a[] = new int[n];
+			for (int i = 0; i < a.length; i++) {
+				a[i] = scn.nextInt();
+			}
+			optimalStrategy(a);
+		}
+	// -----------------------------------------------------
+	// This is a functional problem. Only this function has to be written.
+	// This function takes as input array of integers
+	// It should print the required output
+
+	public static void optimalStrategy(int[] arr){
+		//Write your code here
+		int n = arr.length;
+		int [][] dp = new int[n][n];
+		for (int g = 0; g < n; g++) {
+			for( int i = 0 , j = g ; j  < n  ; j++ , i++ ) {
+				if(g == 0){
+					dp[i][j] = arr[i];
+				}else if(g == 1){
+					dp[i][j] = Math.max(arr[i] , arr[j]);
+				}else{
+					int one = arr[i] + Math.min(dp[i+2][j] , dp[i+1][j-1]);
+					int two = arr[j] + Math.min(dp[i+1][j-1] , dp[i][j-2]);
+					dp[i][j] = Math.max(one , two);
+				}
+			}
+		}
+		System.out.println(dp[0][n-1]);
+	}
+}

@@ -1,0 +1,23 @@
+#include <iostream>
+#include <vector>
+
+using namespace std ;
+
+    int main() {
+        int n ;
+        cin>>n ;
+        int m ;
+        cin>>m ;
+    //   write your code here
+    int dp[n+1];
+    dp[0]=1;
+    for(int i=1;i<=n;i++){
+        if(i<m){
+            dp[i]=1;
+        }else{
+            dp[i]=dp[i-1]+dp[i-m];
+        }
+    }
+    cout<<dp[n]<<endl;
+    
+}

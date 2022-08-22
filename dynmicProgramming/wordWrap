@@ -1,0 +1,45 @@
+import java.util.*;
+
+public class Main{
+    public static int helper(String[] words , int width , int idx , int[] dp){
+        if(idx == words.length)return 0;
+        if(dp[idx] != -1)return dp[idx];
+        int len = 0 ;
+        int ans = Integer.MAX_VALUE ;
+        for(int i  = idx ; i < words.length ; i++){
+            int wlen = words[i].length() ;
+            len += wlen;
+            if(len > width)break;
+            int curr = width - len;
+            curr = curr*curr*curr;
+            int rest = helper(words , width , i+1 , dp);
+            ans = Math.min(ans , rest+curr);
+            len++;
+        }
+        return dp[idx] = ans;
+    }
+    // return cost of optimal word-wrap.
+    private static int wordWrap(String []words,int width){
+
+        // write your code here.
+        int [] dp = new int[words.length];
+        Arrays.fill(dp , -1);
+        return helper(words , width , 0 ,dp );
+    } 
+    
+    public static void main(String []args){
+        Scanner scn = new Scanner(System.in);
+        int n = scn.nextInt();
+        
+        String words[] = new String[n];
+        
+        for(int i = 0 ; i < n ;i++)
+            words[i] = scn.next();
+        
+        int width = scn.nextInt();
+        
+        System.out.println(wordWrap(words, width));
+
+        scn.close();
+    }
+}

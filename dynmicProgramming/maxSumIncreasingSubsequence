@@ -1,0 +1,32 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static int solution(int [] arr){
+        if(arr.length == 0)return 0;
+        int [] dp = new int [arr.length];
+        dp[0] = arr[0];
+        int ans = dp[0];
+        for (int i = 1; i < arr.length; i++) {
+            dp[i] = arr[i];
+            for (int j = 0; j < i; j++) {
+                if(arr[j] <= arr[i]){
+                    dp[i] = Math.max(dp[i] , dp[j] + arr[i]);
+                }
+            }
+            ans = Math.max(ans , dp[i]);
+        }
+        return ans;
+    }
+    public static void main(String[] args) throws Exception {
+        // write your code here
+        Scanner scn  = new Scanner(System.in);
+        int n = scn.nextInt();
+        int arr[] = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = scn.nextInt();
+        }
+        System.out.println(solution(arr));
+    }
+
+}

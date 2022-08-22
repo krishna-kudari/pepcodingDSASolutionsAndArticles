@@ -1,0 +1,45 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	public static boolean solution(String s, String p) {
+		//write your code here
+		boolean [][]dp = new boolean[p.length()+1][s.length()+1];
+		dp[0][0] = true;
+		for (int i = 1; i < dp.length; i++) {
+			for (int j = 0; j < dp[0].length; j++) {
+				char pch = p.charAt(i-1);
+				if(j == 0){
+					if(pch == '*'){
+						dp[i][j] = dp[i-2][j];
+					}
+				}else{
+					char sch = s.charAt(j-1);
+					if(pch == '.'){
+						dp[i][j] = dp[i-1][j-1];
+					}
+					else if(pch == '*'){
+						char ch = p.charAt(i-2);
+						if(ch == '.' || ch == sch){
+							dp[i][j] = dp[i][j-1] || dp[i-2][j];
+						}else{
+							dp[i][j] = dp[i-2][j];
+						}
+					}else if(pch == sch){
+						dp[i][j] = dp[i-1][j-1];
+					}
+				}
+			}
+		}
+		return dp[dp.length-1][dp[0].length-1];
+	}
+
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		String s1 = scn.next();
+		String s2 = scn.next();
+		System.out.println(solution(s1,s2));
+	}
+
+}

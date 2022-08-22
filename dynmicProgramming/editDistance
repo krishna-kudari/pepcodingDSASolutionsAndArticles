@@ -1,0 +1,45 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+	public static int helper(int i , String s1 , int j , String s2 , int [][] dp){
+		if(i == s1.length() && j == s2.length())return 0;
+		else if( i == s1.length()){
+			int ext = s2.length() - j;
+			return ext;
+		}
+		else if( j == s2.length()){
+			int ext = s1.length() - i;
+			return ext;
+		}
+		if(s1.charAt(i) == s2.charAt(j)){
+			return helper(i+1 , s1 , j+1 , s2 ,dp);
+		}
+		if(dp[i][j] != -1)return dp[i][j];
+		//replace 
+		int replace =  helper(i+1 , s1 , j+1 , s2 , dp)+1;
+		//add
+		int add = helper(i , s1 , j+1 , s2 , dp)+1;
+		//remove
+		int remove = helper(i+1 , s1 , j , s2 , dp)+1;
+
+		dp[i][j] = Math.min(replace , Math.min(add , remove));
+		return dp[i][j];
+	}
+	public static int solution(String str1, String str2) {
+		//write your code here
+		int [][]dp = new int[str1.length()+1][str2.length()+1];
+		for (int[]  arr : dp) {
+			Arrays.fill(arr , -1);
+		}
+		return helper( 0 , str1 , 0 , str2 , dp);
+	}
+	
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		String s1 = scn.next();
+		String s2 = scn.next();
+		System.out.println(solution(s1,s2));
+	}
+
+}

@@ -1,0 +1,52 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static int[] lis_01(int [] arr){
+        int [] dp = new int [arr.length];
+        dp[0] = 1;
+        for (int i = 1; i < arr.length; i++) {
+            dp[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if(arr[j] <= arr[i] ){
+                    dp[i] = Math.max(dp[i] , dp[j]+1);
+                }
+            }
+        }
+        return dp;
+    }
+
+    public static int[] lds_10(int [] arr){
+        int [] dp = new int[arr.length];
+        for(int i = arr.length - 1; i >= 0 ;i--){
+            dp[i] = 1;
+            for (int j = i+1; j < arr.length; j++) {
+                if(arr[j] <= arr[i]){
+                    dp[i] = Math.max(dp[i] , dp[j]+1);
+                }
+            }
+        }
+        return dp;
+    }
+    public static int solution(int []  arr){
+        int [] lis_01 = lis_01(arr);
+        int [] lds_10 = lds_10(arr); 
+        int ans = lds_10[0];
+        for (int i = 0; i < arr.length-1; i++) {
+            ans = Math.max(ans , lis_01[i] + lds_10[i+1]);
+        }
+        ans = Math.max(ans , lis_01[arr.length-1]);
+        return ans;
+    }
+    public static void main(String[] args) throws Exception {
+        // write your code here
+        Scanner scn = new Scanner(System.in);
+        int n = scn.nextInt();
+        int []arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = scn.nextInt();
+        }
+        System.out.println(solution(arr));
+    }
+
+}

@@ -1,0 +1,31 @@
+import java.util.*;
+ 
+class Main {
+	public static void main (String[] args) {
+	Scanner sc=new Scanner(System.in);
+		String s=sc.next();
+		String t=sc.next();
+		function(s, t);
+	}
+		// -----------------------------------------------------
+	// This is a functional problem. Only this function has to be written.
+	// This function takes as input 2 strings 
+	// It should return the required output
+
+	public static void function(String S, String T){
+		//Write your code here
+		System.out.println(helper(S , 0 , T , 0));;
+	}
+
+	public static int helper(String s , int i , String t , int j){
+		if(i == s.length() && j == t.length())return 1;
+		else if( j == t.length())return 1;
+		else if( i == s.length())return 0;
+
+		if(s.charAt(i) == t.charAt(j)){
+			return helper(s , i+1 , t , j+1) + helper(s , i+1 , t , j);
+		}else{
+			return helper(s , i+1 , t , j);
+		}
+	}
+}

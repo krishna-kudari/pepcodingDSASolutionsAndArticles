@@ -1,0 +1,42 @@
+import java.util.*;
+public class Main{
+    public static int solution(int m , int[] x, int[] rev, int t) {
+        // write your code here
+        int dp[] = new int[m+1];
+        dp[x[0]] = rev[0];
+        int idx = 1;
+        for (int i = x[0]+1; i <= m; i++) {
+            if(idx < x.length && i == x[idx]){
+                int y = i-t-1>=0 ? dp[i-t-1]+rev[idx] : rev[idx];
+                dp[i] = Math.max(dp[i-1] , y);
+                idx++;
+
+            }else{
+                dp[i] = dp[i-1];
+            }
+        }
+        // System.out.println(Arrays.toString(dp));
+        return dp[m];
+    }
+    public static void input(int []arr,Scanner scn){
+        for(int i = 0;i<arr.length;i++){
+            arr[i] = scn.nextInt();
+        }
+    }
+    public static void main(String []args){
+        Scanner scn = new Scanner(System.in);   
+        int m = scn.nextInt();
+        int n = scn.nextInt();
+        
+        int x[] = new int[n];
+        input(x, scn);
+
+        int revenue[] = new int[n];
+        input(revenue,scn);
+
+        int t = scn.nextInt();
+
+        System.out.println(solution(m, x, revenue, t));
+        scn.close();
+    }
+}

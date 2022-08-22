@@ -1,0 +1,49 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	public static int helper(int i , int n , int [][] dp){
+		if(n==0)return 1;
+
+		if(dp[i][n] != 0)return dp[i][n];
+		int up = 0 , bt = 0 , l  = 0, r = 0 , curr = 0;
+		if(i > 3 || i == 0){
+			if( i == 0)up = helper( 8 , n-1 , dp);
+			else{
+				up = helper( i-3 , n-1 , dp);
+			}
+		}
+
+		if( (i < 7 || i == 8) && i != 0){
+			if(i == 8)bt = helper( 0 , n-1 , dp);
+			else{
+				bt = helper(i+3 , n-1 , dp);
+			}
+		}
+
+		if(i%3 != 1 && i != 0){
+			l = helper(i-1 , n-1 , dp);
+		}
+
+		if(i %3 != 0 && i != 0){
+			r = helper(i+1 , n-1 , dp);
+		}
+		curr = helper(i , n-1 , dp);
+		return dp[i][n] = (up + bt + l + r + curr);
+	}
+	public static int solution(int n) {
+		//write your code here
+		int ans = 0; 
+		int [][] dp = new int[10][n];
+		for (int i = 0; i < 10; i++) {
+			ans += helper(i , n-1 , dp);
+		}
+		return ans;
+	}
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		System.out.println(solution(scn.nextInt()));
+	}
+
+}

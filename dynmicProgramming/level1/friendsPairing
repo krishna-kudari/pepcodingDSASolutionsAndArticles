@@ -1,0 +1,19 @@
+#include <iostream>
+#include <vector>
+
+using namespace std ;
+
+    int main() {
+       int n ;
+       cin>>n ;
+     // write your code here
+     int csum=2;
+     int last=2;
+     int l2ast=1;
+     for(int i=3;i<=n;i++){
+          int n=last+(i-1)*l2ast;
+          l2ast=last;
+          last=n;
+     }
+     cout<<last<<endl;
+}

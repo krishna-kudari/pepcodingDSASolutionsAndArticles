@@ -1,0 +1,42 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+  public static int solution(int[] arr) {
+    //write your code here
+    int n = arr.length;
+    int [][] dp = new int[n][n];
+    for (int g = 0; g < n; g++) {
+      for (int j = g , i = 0; j < n; j++ , i++) {
+        if(g == 0){
+          int im1 = i>0 ? arr[i-1] : 1;
+          int ip1 = i<n-1 ? arr[i+1] : 1;
+          dp[i][j] = im1*arr[i]*ip1;
+        }else{
+          for (int k = i; k <= j; k++) {
+            int one = k > 0? dp[i][k-1] : 0;
+            int two = k <n-1? dp[k+1][j] : 0;
+            int im1 = i>0 ? arr[i-1] : 1;
+            int jp1 = j<n-1 ? arr[j+1] : 1;
+            int three = im1*arr[k]*jp1;
+            int tot = one + two + three;
+            dp[i][j] = Math.max(dp[i][j] , tot);
+          }
+        }
+      }
+    }
+    return dp[0][n-1];
+  }
+
+  public static void main(String[] args) {
+    Scanner scn = new Scanner(System.in);
+    int n = scn.nextInt();
+    int[] arr = new int[n];
+    for (int i = 0; i < arr.length; i++) {
+      arr[i] = scn.nextInt();
+    }
+    System.out.println(solution(arr));
+  }
+
+}

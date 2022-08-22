@@ -1,0 +1,40 @@
+import java.util.*;
+
+class Main {    
+    
+    public static int stoneGame(int[] stones) {
+        //write your code here
+        int n = stones.length;
+        int[][] dp = new int[n][n];
+        for (int g = 0; g < n; g++) {
+            for (int j = g , i = 0; j < n; j++,i++) {
+                if(g == 0){
+                    dp[i][j] = 0;
+                }else if(g==1){
+                    dp[i][j] = Math.max(stones[i] , stones[j]);
+                }else{
+                    int sum = 0;
+                    for (int k = i ; k <= j ; k++) {
+                        sum += stones[k];
+                    }
+                    int ione = sum - stones[i] + Math.min(dp[i+2][j] , dp[i+1][j-1]);
+                    int jtwo = sum - stones[j] + Math.min(dp[i+2][j] , dp[i+1][j-1]);
+                    dp[i][j] =  Math.max(ione , jtwo);
+                }
+            }
+        }
+        // System.out.println(Arrays.deepToString(dp));
+        return dp[0][n-1]-dp[1][n-1];
+    }
+
+    public static void main(String args[]) {
+        Scanner s = new Scanner(System.in);
+        int n=s.nextInt();
+        int[] stones = new int[n];
+        for(int i=0; i<n; ++i) {
+            stones[i]=s.nextInt();
+        }
+
+        System.out.println(stoneGame(stones));
+    }
+}

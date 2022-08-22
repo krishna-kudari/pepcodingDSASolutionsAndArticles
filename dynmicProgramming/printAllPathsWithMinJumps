@@ -1,0 +1,61 @@
+import java.util.ArrayDeque;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class Main{
+    public static class Pair {
+        int idx;
+        String psf;
+        Pair(){}
+        Pair(int idx , String psf){
+            this.idx = idx;
+            this.psf = psf;
+        }
+    }
+    public static void Solution(int arr[]){
+        // write your code here
+        int[] dp = new int[arr.length];
+        dp[arr.length-1] = 0;
+        for (int i = arr.length-2; i >= 0; i--) {
+            if(arr[i] == 0)dp[i]=-1;
+            else {
+                int min = Integer.MAX_VALUE;
+                for (int j = 1; j <= arr[i] && i+j <arr.length; j++) {
+                    if(dp[i+j] != -1 && dp[i+j] < min){
+                        min = dp[i+j];  
+                    }
+                }
+                dp[i] = min+1;
+            }
+
+        }
+        System.out.println(dp[0]);
+        Queue<Pair> que = new ArrayDeque<>();
+        que.add(new Pair(0 , "0 -> "));
+        while(que.size() > 0){
+            Pair rp = que.remove();
+            if(rp.idx == arr.length-1)System.out.println(rp.psf+".");
+            else{
+                int mj = dp[rp.idx];
+                for (int i = 1; i <= arr[rp.idx] && i+rp.idx < arr.length ; i++) {
+                    if(dp[rp.idx+i] == mj-1){
+                        String arrow = (rp.idx+i==arr.length-1)?" ":" -> ";
+                        que.add(new Pair(rp.idx+i , rp.psf+(rp.idx+i)+arrow));
+                    }
+                }
+            }
+        }
+
+    }
+    public static void main(String []args){
+        Scanner scn = new Scanner(System.in);
+        int n = scn.nextInt();
+
+        int arr[] = new int[n];
+        for(int i = 0 ; i < n ; i++)
+            arr[i] = scn.nextInt();
+
+        Solution(arr);
+        scn.close();
+    }
+}

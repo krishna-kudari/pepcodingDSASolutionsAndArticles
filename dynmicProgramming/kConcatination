@@ -1,0 +1,58 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  public static long kadane(int arr[] ){
+    long cSum = arr[0];
+    long oSum = arr[0];
+    for (int i = 1; i < arr.length; i++) {
+      if(cSum < 0){
+        cSum = arr[i];
+      }else{
+        cSum += arr[i];
+      }
+
+      if(cSum > oSum)oSum = cSum;
+    }
+    return oSum;
+  }
+  public static long kadaneTwo(int arr[]){
+    long cSum = 0;
+    long oSum = Integer.MIN_VALUE;
+    for (int i = 0; i < arr.length*2; i++) {
+      int j = i % arr.length;
+      if(cSum < 0){
+        cSum = arr[j];
+      }else{
+        cSum += arr[j];
+      }
+
+      if(cSum > oSum)oSum = cSum;
+    }
+    return oSum;
+  }
+  public static long solution(int[] arr, int k, long sum) {
+    // write your code here
+    if( k == 1){
+      return kadane(arr);
+    }else if( sum < 0){
+      return kadaneTwo(arr);
+    }else{
+      return kadaneTwo(arr)+((k-2)*sum);
+    }
+  }
+
+  public static void main(String[] args) {
+    Scanner scn = new Scanner(System.in);
+    int n = scn.nextInt();
+    int[] arr = new int[n];
+    long sum = 0;
+    for (int i = 0; i < arr.length; i++) {
+      arr[i] = scn.nextInt();
+      sum += arr[i];
+    }
+    int k = scn.nextInt();
+    System.out.println(solution(arr, k, sum));
+  }
+
+}

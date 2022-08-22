@@ -1,0 +1,43 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+	public static int helper(int i , int le , int sle , int lei , int[] arr , int[][] dp){
+		if(i == arr.length)return 0;
+		if(dp[i][lei] != 0)return dp[i][lei];
+		int ans = 0;
+		//yes call
+		if(le > sle){//element should be small
+			if(arr[i] < le){
+				int cans = helper(i+1 , arr[i] , le , 1 , arr , dp);
+				ans = Math.max(ans , arr[i] + cans);
+			}
+		}else if(sle > le){//element should be big
+			if(arr[i] > le){
+				int cans = helper(i+1 , arr[i] , le , 0 , arr , dp);
+				ans = Math.max(ans , arr[i] + cans);
+			}
+		}
+
+		//No call
+		int cans = helper(i+1 , le , sle , lei , arr , dp);
+		ans = Math.max(ans , cans);
+		return dp[i][lei] = ans;
+	}
+	public static int solution(int[] arr) {
+		// write your code here
+		int[][] dp = new int[arr.length][2];
+		return arr[0] + helper(1 , arr[0] , Integer.MIN_VALUE , 0 , arr , dp);
+	}
+	
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		int n = scn.nextInt();
+		int[] arr = new int[n];
+		for(int i = 0 ; i < n; i++){
+			arr[i] = scn.nextInt();
+		}
+		System.out.println(solution(arr));
+	}
+
+}

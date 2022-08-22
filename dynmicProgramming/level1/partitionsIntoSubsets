@@ -1,0 +1,31 @@
+#include <iostream> 
+#include <vector>
+
+using namespace std ;
+
+   int main() {
+      int n ;
+      cin>>n ;
+      int k ;
+      cin>>k ;
+
+     // write your code here
+   //   int =long long int;
+     long  dp[k+1][n+1];
+     for(int i=0;i<=k;i++){
+        for(int j=0;j<=n;j++){
+           if(j<i or j==0 or i==0){
+              dp[i][j]=0;
+           }else if(j==i or i==1){
+              dp[i][j]=1;
+            }
+            else{
+              long nm1k=dp[i][j-1];
+              long nm1km1=dp[i-1][j-1];
+              dp[i][j]=nm1k*i+nm1km1;
+            //   cout<<"hi"<<endl;
+           }
+        }
+     }
+     cout<<dp[k][n]<<endl;
+   }

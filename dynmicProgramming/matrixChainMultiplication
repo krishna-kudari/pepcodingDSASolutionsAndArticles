@@ -1,0 +1,43 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	public static int mcm(int[] arr){
+		//write your code here
+		int n = arr.length;
+		int [][] dp = new int[n-1][n-1];
+		for (int g = 0; g < n-1; g++) {
+			for (int i = 0 , j = g; j < n-1; i++ , j++) {
+				if(g==0){
+					dp[i][j] = 0;
+				}else if(g == 1){
+					dp[i][j] = arr[i] * arr[j] * arr[j+1];
+				}else{
+					int min = Integer.MAX_VALUE;
+					for(int k = i ; k < j ; k++){
+						int one = dp[i][k];
+						int two = dp[k+1][j];
+						int mult= arr[i]*arr[k+1]*arr[j+1];
+						int tot = one +two + mult;
+						if(tot < min)min = tot;
+					}
+					if(min < Integer.MAX_VALUE)dp[i][j] = min;
+				}
+			}
+		}
+		// System.out.println(Arrays.deepToString(dp));
+		return dp[0][n-2];
+	}
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		int n = scn.nextInt();
+		int[] arr = new int[n];
+		for(int i = 0 ; i < n; i++){
+			arr[i] = scn.nextInt();
+		}
+		System.out.println(mcm(arr));
+	}
+
+	
+}

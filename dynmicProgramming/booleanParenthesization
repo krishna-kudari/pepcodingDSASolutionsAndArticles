@@ -1,0 +1,68 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	public static int solution(String str1, String str2) {
+		//write your code here
+		int n = str1.length();
+		int [][] dpt = new int[n][n];
+		int [][] dpf = new int[n][n];
+
+		for (int g = 0; g < n; g++) {
+			for (int i = 0 , j = g; j < n; i++ , j++) {
+				if(g == 0){
+					dpt[i][j] = str1.charAt(j) == 'T'?1 : 0;
+					dpf[i][j] = str1.charAt(j) == 'F'?1 : 0;
+				}else if(g == 1){
+					char op = str2.charAt(j-1);
+					char l = str1.charAt(i);
+					char r = str1.charAt(j);
+					if(op == '|'){
+						if(l == 'T' || r == 'T')dpt[i][j] = 1;
+						if(l == 'F' && r == 'F')dpf[i][j] = 1;
+					}else if( op == '&'){
+						if(l == 'T' && r == 'T')dpt[i][j] = 1;
+						if(l == 'F' || r == 'F')dpf[i][j] = 1;
+					}else if( op == '^'){
+						if(l != r)dpt[i][j] = 1;
+						if(l == r)dpf[i][j] = 1;
+					}
+				}else{
+					for (int k = i; k < j; k++) {
+						int ltc = dpt[i][k] , lfc = dpf[i][k];
+						int rtc = dpt[k+1][j] , rfc = dpf[k+1][j];
+						char op = str2.charAt(k);
+						if(op == '|'){
+							int tc = (ltc*rtc) + (ltc*rfc) + (lfc*rtc);
+							int fc = lfc*rfc;
+							dpt[i][j] += tc;
+							dpf[i][j] += fc;
+						}else if( op == '&'){
+							int tc = ltc*rtc;
+							int fc = (lfc*rfc) + (ltc*rfc) + (lfc*rtc);
+							dpt[i][j] += tc;
+							dpf[i][j] += fc;
+						}else if( op == '^'){
+							int tc =  (ltc*rfc) + (lfc*rtc);
+							int fc = (ltc*rtc) + (lfc*rfc);
+							dpt[i][j] += tc;
+							dpf[i][j] += fc;
+						}
+					
+					}
+				}
+			}
+		}
+		// System.out.println(Arrays.deepToString(dpt)+'\n'+Arrays.deepToString(dpf));
+		return dpt[0][n-1];
+	}
+
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		String s1 = scn.next();
+		String s2 = scn.next();
+		System.out.println(solution(s1, s2));
+	}
+
+}

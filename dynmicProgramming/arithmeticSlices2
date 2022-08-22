@@ -1,0 +1,36 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	public static int solution(int[] arr) {
+		//write your code here
+		int ans = 0; 
+		HashMap<Integer,Integer>[] dp = new HashMap[arr.length];
+		dp[0] = new HashMap<>();
+		for (int i = 1; i < arr.length; i++) {
+			dp[i] = new HashMap<>();
+			for (int j = 0; j < i; j++) {
+				long cd = arr[i] - arr[j];
+				if(cd <= Integer.MIN_VALUE || cd >= Integer.MAX_VALUE)continue;
+
+				int countj = dp[j].getOrDefault((int)cd , 0);
+				int counti = dp[i].getOrDefault((int)cd , 0);
+				ans += countj;
+				dp[i].put((int)cd , countj+1 + counti);
+			}
+		}
+		return ans;
+	}
+	
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		int n = scn.nextInt();
+		int[] arr = new int[n];
+		for(int i = 0 ; i < n; i++){
+			arr[i] = scn.nextInt();
+		}
+		System.out.println(solution(arr));
+	}
+
+}

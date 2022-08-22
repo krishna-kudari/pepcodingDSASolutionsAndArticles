@@ -1,0 +1,24 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+    int main() {
+        int n ;
+        cin>>n ;
+        int k ;
+        cin>>k ;
+        
+        //write your code here
+        int ldiff=k*(k-1);
+        int lsame=k;
+        for(int m=3;m<=n;m++){
+            int nsame=ldiff;
+            int ndiff=lsame*(k-1)+ldiff*(k-1);
+            lsame=nsame;
+            ldiff=ndiff;
+        }
+
+        cout<<lsame+ldiff<<endl;
+
+    }

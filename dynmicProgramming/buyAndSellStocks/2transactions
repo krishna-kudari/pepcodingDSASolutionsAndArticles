@@ -1,0 +1,43 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static int maxProfit(int[] arr) {
+        int n = arr.length;
+        int [] befor = new int[n];
+        int [] after = new int[n];
+        int cmin = arr[0] ; befor[0] = 0;
+        for(int i = 1 ; i < n ; i++){
+            if(arr[i] < cmin){
+                cmin = arr[i];
+            }
+            int cp = arr[i]-cmin;
+            befor[i] = Math.max(befor[i-1] , cp);
+        }
+        int cmax = arr[n-1] ; after[n-1] = 0;
+        for(int i = n-2 ;i >= 0 ; i--){
+            if(arr[i] > cmax){
+                cmax = arr[i];
+            }
+            int cp = cmax - arr[i];
+            after[i] = Math.max(after[i+1] , cp);
+        }
+        int ans = 0 ;
+        for(int i = 0 ; i < n ; i++){
+            ans = Math.max(ans , befor[i]+after[i]);
+        }
+        return ans;
+    }
+    public static void main(String[] args) throws Exception {
+        // write your code here
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int [] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        System.out.println(maxProfit(arr));
+    }
+
+}

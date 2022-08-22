@@ -1,0 +1,81 @@
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class Main{
+    
+    public static class Pair {
+        int l;
+        int i;
+        int v;
+        String psf;
+        
+        Pair(int l, int i, int v, String psf){
+            this.l = l;
+            this.i = i;
+            this.v = v;
+            this.psf = psf;
+        }
+    }
+        
+    public static void solution(int []arr){
+        // write your code here
+        if(arr.length == 0)return;
+        int [] dp = new int[arr.length];
+        dp[0] = 1;
+        int omax = 1 ,omaxidx = 0;
+        for(int i = 1 ; i < arr.length ; i++){
+            int max = 0;
+            for(int j = 0; j < i; j++){
+                if(arr[j] < arr[i] && dp[j] > max){
+                    max = dp[j];
+                }
+            }
+            dp[i] = max+1;
+            if(dp[i] > omax){
+                omax = dp[i];
+                omaxidx=i;
+            }
+        }
+        System.out.println(omax);
+
+        Queue<Pair> que = new ArrayDeque<>();
+        for (int i = 0; i < dp.length; i++) {
+            if(dp[i] == omax){
+                que.add(new Pair(omax , i , arr[i] , ""+arr[i]));
+            }
+        }
+        
+        while(que.size() > 0){
+            Pair rp = que.remove();
+            if(rp.l == 1)System.out.println(rp.psf);
+            else{
+                for (int i = rp.i; i >= 0; i--) {
+                    if(dp[i] == rp.l-1 && arr[i] < rp.v){
+                        que.add(new Pair(dp[i] , i , arr[i] , arr[i]+" -> "+rp.psf));
+                    }
+                }
+            }
+            
+        }
+
+    }
+    
+    
+    
+    public static void main(String []args){
+        Scanner scn = new Scanner(System.in);
+
+        int n = scn.nextInt();
+
+        int arr[] = new int[n];
+        for(int i = 0 ; i < n ; i++){
+            arr[i] = scn.nextInt();
+        }
+
+        solution(arr);
+
+        scn.close();
+    }
+}

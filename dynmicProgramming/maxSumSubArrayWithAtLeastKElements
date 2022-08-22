@@ -1,0 +1,41 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+  public static int solution(int[] arr, int k) {
+    // write your code here
+    int ksum = 0 , csum = 0 , osum = Integer.MIN_VALUE;
+    int [] kadane = new int[arr.length];
+    for (int i = 0 , j = -k; i < arr.length; i++ , j++) {
+     if(csum < 0){
+        csum = arr[i];
+      }else{
+        csum += arr[i];
+      }
+      kadane[i] = csum;
+      ksum += arr[i];
+      if(j >= 0){
+        ksum -= arr[j];
+        int s = ksum + kadane[j];
+        if(s > osum)osum = s;
+      }
+      if(j==-1){
+        osum = ksum;
+      }
+    //  if( kadane[i] > osum )osum = kadane[i];
+    }
+    return osum;
+  }
+
+  public static void main(String[] args) {
+    Scanner scn = new Scanner(System.in);
+    int n = scn.nextInt();
+    int[] arr = new int[n];
+    for (int i = 0; i < arr.length; i++) {
+      arr[i] = scn.nextInt();
+    }
+    int k = scn.nextInt();
+    System.out.println(solution(arr, k));
+  }
+}

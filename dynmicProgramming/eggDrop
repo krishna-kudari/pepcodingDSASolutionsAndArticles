@@ -1,0 +1,61 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	public static int eggDrop(int n, int f){
+		//write your code here
+		int max = Integer.MAX_VALUE;
+		int [][] dp = new int[n+1][f+1];
+		for(int j = 0; j <= f ; j++){
+			for(int i = 0; i <= n ; i++){
+				if(i==0){
+					dp[i][j] = 0;
+				}else if (i==1){
+					dp[i][j] = j;
+				}else if(j==0){
+					dp[i][j] = 0;
+				}else if(j==1){
+					dp[i][j] = 1;
+				}else{
+					dp[i][j] = max;
+					int l = 1  , r = j;
+					while( l <= r){
+						int m = (l+r)/2;
+						int dbrakes = dp[i][j-m];
+						int brakes = dp[i-1][m-1];
+						if(dbrakes < brakes){
+							r = m-1;
+						}else{
+							l = m+1;
+						}
+						int badluck = 1+Math.max(dbrakes , brakes);
+						dp[i][j] = Math.min(dp[i][j] , badluck);
+					}
+					// dp[i][j] = 1 + Math.min(Math.max(dp[i][j-l] , dp[i-1][l-1]) , Math.max(dp[i][j-r] , dp[i-1][r-1]));
+					// for(int k = 1; k <= (j+1)/2 ; k++){
+					// 	int dbrakes1 = dp[i][j-k];
+					// 	int brakes1 = dp[i-1][k-1];
+					// 	// int brakes2 = dp[i-1][j-k];
+					// 	// int dbrakes2 = dp[i][k-1];
+					// 	int badluck1 = Math.max(brakes1 , dbrakes1);
+					// 	// int badluck2 = Math.max(brakes2 , dbrakes2); 
+					// 	// int guarantee = Math.min(badluck1 , badluck2);
+					// 	dp[i][j] = Math.min(dp[i][j] , badluck1+1);
+					// }
+				}
+			}
+		}
+		// System.out.println(Arrays.deepToString(dp));
+		return dp[n][f];
+	} 
+
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		//n -> number of eggs and k -> number of floors
+		int n = scn.nextInt();
+		int k = scn.nextInt();
+		System.out.println(eggDrop(n,k));
+	}
+	
+}

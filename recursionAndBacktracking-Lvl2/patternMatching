@@ -1,0 +1,55 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	public static void solution(String str, String pattern, HashMap<Character,String> map, String op){
+		//write your code here
+		if(pattern.length() == 0){
+			if(str.length() ==0){
+				HashSet<Character> unique= new HashSet<>();
+				for (int i =0 ;i < op.length() ;i++) {
+					char ch = op.charAt(i);
+					if(unique.contains(ch) == false){
+						unique.add(ch);
+						System.out.print(ch+" -> "+map.get(ch)+", ");
+						
+					}
+				}
+				System.out.println(".");
+			}
+			return;
+		}
+		char c  = pattern.charAt(0);
+		// System.out.println(c);
+		String ros = pattern.substring(1);
+		if(map.containsKey(c)){
+			String oldmapping = map.get(c);
+			if(str.length() >= oldmapping.length()){
+				
+
+				String lh = str.substring(0 , oldmapping.length());
+				if(oldmapping.equals(lh)){
+					String rh = str.substring(oldmapping.length());
+					solution(rh , ros , map , op);
+
+				}
+			}
+		}else{
+			for(int i = 0;i < str.length(); i++){
+				String lh = str.substring(0 , i+1);
+				String rh = str.substring(i+1);
+				map.put(c , lh);
+				solution(rh , ros , map , op);
+				map.remove(c);
+			}
+		}
+	}
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		String str = scn.next();
+		String pattern = scn.next();
+		HashMap<Character,String> map = new HashMap<>();
+		solution(str,pattern,map,pattern);
+	}
+}

@@ -1,0 +1,52 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+  public static void repLenKWord(int ci , String ustr , HashMap<Character , Integer> loc , Character[] ans , int ssf , int ts){
+    if(ci == ustr.length()){
+      if(ssf == ts){
+        for(Character ch : ans){
+          System.out.print(ch);
+        }
+        System.out.println();
+      }
+      return;
+    }
+    char ch = ustr.charAt(ci);
+    int licc = loc.get(ch);
+    for(int i = licc + 1; i < ans.length; i++){
+      if(ans[i] == null){
+        loc.put(ch , i);
+        ans[i] = ch;
+        repLenKWord(ci + 1 , ustr , loc , ans , ssf +1 , ts);
+        ans[i] = null;
+        loc.put(ch , licc);
+      }
+    }
+    if(licc == -1){
+      repLenKWord(ci + 1 , ustr , loc , ans , ssf , ts);
+    }
+  }
+
+  public static void main(String[] args) throws Exception {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String str = br.readLine();
+    int k = Integer.parseInt(br.readLine());
+
+   HashMap<Character , Integer> loccurance = new HashMap<>();
+   String ustr = "";
+   for (char ch : str.toCharArray()) {
+     if(loccurance.containsKey(ch) == false){
+       loccurance.put(ch , -1);
+       ustr += ch;
+     }else{
+       int of = loccurance.get(ch);
+       loccurance.put(ch , -1);
+     }
+   }
+
+   repLenKWord(0 , str , loccurance , new Character[k] , 0 , k);
+  }
+
+}

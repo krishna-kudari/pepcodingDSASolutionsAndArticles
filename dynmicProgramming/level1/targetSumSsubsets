@@ -1,0 +1,71 @@
+#include <bits/stdc++.h>
+using namespace std;
+void input(vector<int> &arr)
+{   
+    for (int i = 0; i < arr.size(); i++)
+    {
+        cin >> arr[i];
+    }
+}
+void targetSumPair(vector<int> &arr,int i, int target,int ans,bool anss)
+{
+    //write your code here
+    if(i==arr.size()){
+        if(target==ans){
+            anss=true;
+
+            
+        }
+        return;
+        
+    }
+    // int n=arr[i];
+    targetSumPair(arr,i+1,target,ans+arr[i],anss);
+    targetSumPair(arr,i+1,target,ans,anss);
+    if(i==0){
+        cout<<anss<<endl;
+    }
+
+}
+int main()
+{
+    int n, target;
+    cin >> n;
+    vector<int> arr(n, 0);
+    input(arr);
+    cin >> target;
+    // targetSumPair(vec,0, target,0,false);
+    n=n+1;target+=1;
+    int dp[n][target] ;
+    dp[0][0]=1;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<target;j++){
+            if(j==0){
+                dp[i][j]=1;
+            }else if(i==0 and j>=1){
+                dp[i][j]=0;
+            }
+            else{
+                int rv= j-arr[i-1];
+                if( dp[i-1][j]==1 ){
+                    dp[i][j]=1;
+                }else if(rv>=0 and dp[i-1][rv]==1){
+                    dp[i][j]=1;
+                }
+                else{
+                    dp[i][j]=0;
+                }
+            }
+            
+            
+        }
+    }
+    cout<<(dp[n-1][target-1]>0?"true":"false")<<endl;
+    // for(int i=0;i<n;i++){
+    //     for(int j=0;j<target;j++){
+    //         cout<<dp[i][j];
+    //     }
+    //     cout<<endl;
+    // }
+    return 0;
+}

@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int cs(int arr[], int n, vector<int>& dp,int move,int k) {
+  
+  if(n<0){
+    return 0;
+  }
+  if(n==0){
+    if(move<dp[0]){
+      dp[0]=move;
+    }
+    
+    
+    return 0;
+  }
+  
+  
+  
+    for(int j=arr[k-n];j>=1;j--){
+      move++;
+      cs(arr,n-j,dp,move,k);
+      move--;
+    }
+    
+    return 0;
+  
+}
+  
+
+
+
+int main() {
+  int n;
+  cin >> n;
+  int arr[n];
+  for (int i = 0 ; i < n ; i++) {
+    cin >> arr[i];
+  }
+
+  vector<int> dp(n + 1, 0);
+  dp[0]=n;
+
+  cs(arr, n, dp,0,n);
+  cout<<dp[0]<<endl;
+}

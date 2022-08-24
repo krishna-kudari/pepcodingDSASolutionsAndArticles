@@ -1,0 +1,37 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+        int [] vals = new int[n];
+        int [] wts  = new int[n];
+        for (int i = 0; i < n; i++) {
+            vals[i] = sc.nextInt();
+        }
+        for (int i = 0; i < n; i++) {
+            wts[i] = sc.nextInt();
+        }
+        int cap = sc.nextInt();
+
+        double [][]dp = new double[n+1][cap+1];
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= cap; j++) {
+                int wt = wts[i-1];
+                int val = vals[i-1];
+                double valperwt = (double)val/wt;
+                // System.out.println(valperwt);
+                for(int k = 0 ; k <= wt && j-k >=0;k++ ){
+                    double cval = dp[i-1][j-k] + (k*valperwt);
+                    if(cval > dp[i][j])dp[i][j] = cval;
+                }
+            }
+        }
+        // System.out.println(Arrays.deepToString(dp));
+        System.out.println(dp[n][cap]);
+	}
+
+}

@@ -1,0 +1,47 @@
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std ;
+
+int main()
+{
+    int n ;
+    cin>>n ;
+    int k ;
+    cin>>k ;
+    //write your code from here
+    int ans=INT_MAX;
+    int data[n][k];
+    for(int i=0;i<n;i++){
+        for(int j=0;j<k;j++){
+            cin>>data[i][j];
+            
+        }
+    }
+    vector<vector<int>>dp(n,vector<int>(k));
+    for(int i=0;i<n;i++){
+        for(int j=0;j<k;j++){
+            // cin>>data[i][j];
+                if(i==0){
+                    dp[i][j]=data[i][j];
+                    continue;
+                }
+                int mn=dp[i-1][0];
+                for(int l=0,m=i-1;l<k;l++){
+                    if(l!=j){
+                       mn=min(dp[m][l],mn); 
+                    }
+                }
+                dp[i][j]=mn+data[i][j];
+                
+            
+            if(i==n-1){
+                // cout<<ans<<endl;
+                // cout<<dp[i][j]<<endl;
+                ans=min(ans,dp[i][j]);
+            }
+        }
+    }
+    cout<<ans<<endl;
+
+
+}

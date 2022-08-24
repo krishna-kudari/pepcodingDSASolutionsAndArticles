@@ -1,0 +1,49 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  public static void repWordComb(int ci , String ustr , String asf ,int csf ,int ts ,  HashMap<Character , Integer> fmap){
+    if(ci == ustr.length()){
+      if(csf == ts){
+        System.err.println(asf);
+        
+      }
+      return ;
+    }
+    else if(csf > ts){
+        return;
+      }
+    char ch = ustr.charAt(ci);
+    int freq = fmap.get(ch);
+    for(int i = freq; i >=1; i--){
+      String part = "";
+      for (int k = 0; k < i; k++) {
+        part += ch;
+
+      }
+      repWordComb(ci +1 , ustr , asf + part , csf+i ,ts, fmap);
+
+    }
+    repWordComb(ci +1 , ustr , asf , csf ,ts, fmap);
+  }
+  
+  public static void main(String[] args) throws Exception {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String str = br.readLine();
+    int k = Integer.parseInt(br.readLine());
+
+    HashMap<Character, Integer> unique = new HashMap<>();
+    String ustr = "";
+    for (char ch : str.toCharArray()) {
+      if (unique.containsKey(ch) == false) {
+        unique.put(ch, 1);
+        ustr += ch;
+      } else {
+        unique.put(ch, unique.get(ch) + 1);
+      }
+    }
+    repWordComb( 0 , ustr , "" , 0 , k , unique);
+   
+  }
+
+}

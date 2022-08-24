@@ -1,0 +1,73 @@
+// import java.io.*;
+import java.util.*;
+
+public class Main {
+  public static void display(int[][] board){
+    for(int i = 0; i < board.length; i++){
+      for(int j = 0; j < board[0].length; j++){
+        System.out.print(board[i][j] + " ");
+      }
+      System.out.println();
+    }
+  }
+  public static void solve (int[][] board, int i, int j ,int []r , int[] c , int[][] mini){
+    if(j == 9){
+      i++;
+      j = 0;
+    }
+    if(i==9){
+      display(board);
+      return;
+    }
+    if(board[i][j] > 0){
+      solve(board , i , j +1 , r , c , mini);
+    }else{
+      for(int k = 1 ; k < 10 ; k++){
+        if(
+          (r[i] & (1<<k)) == 0 &&
+          (c[j] & (1<<k)) == 0 &&
+          (mini[i/3][j/3] & (1<<k)) == 0
+        ){
+          r[i] = r[i] | (1<<k);
+          c[j] = c[j] | (1<<k);
+          mini[i/3][j/3] = mini[i/3][j/3] | (1<<k);
+          board[i][j] = k;
+          solve(board , i , j +1 , r , c, mini);
+          r[i] = r[i] & ~(1<<k);
+          c[j] = c[j] & ~(1<<k);
+          mini[i/3][j/3] = mini[i/3][j/3] & ~(1<<k);
+          board[i][j] = 0;
+        }
+      }
+    }
+
+  }
+  public static void solveSudoku(int[][] board, int a, int b) {
+    // write yopur code here
+    int [][] mini = new int[3][3];
+    int [] r = new int[9];
+    int [] c = new int[9];
+    for (int i = 0; i < 9; i++) {
+      for (int j = 0; j < 9; j++) {
+        if(board[i][j] > 0){
+          r[i] = r[i] | (1<<board[i][j]);
+          c[j] = c[j] | (1<<board[i][j]);
+          mini[i/3][j/3] = mini[i/3][j/3] | (1<<board[i][j]);
+        }
+      }
+    }
+    solve(board , a , b , r , c , mini);
+  }
+
+  public static void main(String[] args) throws Exception {
+    Scanner scn = new Scanner(System.in);
+    int[][] arr = new int[9][9];
+    for (int i = 0; i < 9; i++) {
+      for (int j = 0; j < 9; j++) {
+        arr[i][j] = scn.nextInt();
+      }
+    }
+
+    solveSudoku(arr, 0, 0);
+  }
+}

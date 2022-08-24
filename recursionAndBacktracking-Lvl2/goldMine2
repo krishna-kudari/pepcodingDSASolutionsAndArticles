@@ -1,0 +1,49 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+	static int max = 0;
+	public static void getMaxGold(int[][] arr , int r , int  c , boolean[][]vis , ArrayList<Integer> bag){
+		//write your code here
+		if(r < 0 || r >= arr.length || c < 0 || c>=arr[r].length || arr[r][c] <= 0  || vis [r][c] == true){
+			return;
+		}
+		vis[r][c] =true;
+		bag.add(arr[r][c]);
+		getMaxGold(arr , r-1 , c , vis , bag);
+		getMaxGold(arr , r , c+1 , vis , bag);
+		getMaxGold(arr , r+1 , c , vis , bag);
+		getMaxGold(arr , r , c-1 , vis , bag);
+		
+		// vis[r][c] = false;
+		
+	}
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		int n = scn.nextInt();
+		int m = scn.nextInt();
+		int[][] arr = new int[m][n];
+		for(int i = 0; i < arr.length; i++){
+			for(int j = 0 ; j  < arr[0].length; j++){
+				arr[i][j] = scn.nextInt();
+			}
+		}
+		boolean [][] vis = new boolean[m][n];
+		for(int i = 0; i < arr.length; i++){
+			for(int j = 0 ; j  < arr[0].length; j++){
+				if(arr[i][j] >0 && vis[i][j] == false){
+					ArrayList<Integer> bag = new ArrayList<Integer>();
+					getMaxGold(arr , i , j , vis , bag);
+					int isum =0 ;
+					for (int var : bag) {
+						isum += var;
+					}	
+					max = Math.max(max , isum);
+				}
+			}
+		}
+
+		System.out.println(max);
+	}
+		
+}

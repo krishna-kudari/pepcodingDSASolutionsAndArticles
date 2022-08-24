@@ -1,0 +1,15 @@
+#include<iostream>
+using namespace std;
+int main(){
+    int n;
+    cin>>n;
+    long long int ls=1,lb=1,t=2;
+    for(int i=2;i<=n;i++){
+        long long int nb=ls;
+        long long int ns=ls+lb;
+        t=ns+nb;
+        ls=ns;
+        lb=nb;
+    }
+    cout<<t*t<<endl;
+}

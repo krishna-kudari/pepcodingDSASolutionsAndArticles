@@ -1,0 +1,24 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static int cntStrPaths(int n , int [] dp){
+        if(n < 0)return 0;
+        if(n == 0)return 1;
+
+        if(dp[n] != -1)return dp[n];
+
+        return dp[n] = cntStrPaths(n-1, dp) +cntStrPaths(n-2, dp)+ cntStrPaths(n-3, dp) ;
+    }
+
+    public static void main(String[] args) throws Exception {
+        // write your code here
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] dp =new int[n+1];
+        Arrays.fill(dp , -1);
+        System.out.println( cntStrPaths(n , dp));
+    }
+
+}

@@ -1,0 +1,115 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+  public static void main(String[] args) {
+    Scanner scn = new Scanner(System.in);
+    String s1 = scn.nextLine();
+    String s2 = scn.nextLine();
+    String s3 = scn.nextLine();
+
+    HashMap<Character, Integer> charIntMap = new HashMap<>();
+    String unique = "";
+    for (int i = 0; i < s1.length(); i++) {
+      if (!charIntMap.containsKey(s1.charAt(i))) {
+        charIntMap.put(s1.charAt(i), -1);
+        unique += s1.charAt(i);
+      }
+    }
+
+    for (int i = 0; i < s2.length(); i++) {
+      if (!charIntMap.containsKey(s2.charAt(i))) {
+        charIntMap.put(s2.charAt(i), -1);
+        unique += s2.charAt(i);
+      }
+    }
+
+    for (int i = 0; i < s3.length(); i++) {
+      if (!charIntMap.containsKey(s3.charAt(i))) {
+        charIntMap.put(s3.charAt(i), -1);
+        unique += s3.charAt(i);
+      }
+    }
+
+    boolean[] usedNumbers = new boolean[10];
+    solution(unique, 0, charIntMap, usedNumbers, s1, s2, s3);
+  }
+
+  public static boolean satisfied(String s1 , String s2 , String s3 , HashMap<Character , Integer> charIntMap){
+    int s1i = s1.length()-1 , s2i = s2.length()-1 , s3i = s3.length()-1;
+    boolean f = false;
+    int carry = 0;
+    while(s1i >=0 && s2i >=0 && s3i >=0){
+      char chs1 = s1.charAt(s1i);
+      char chs2 = s2.charAt(s2i);
+      char chs3 = s3.charAt(s3i);
+      int digchs1 = charIntMap.get(chs1);
+      int digchs2 = charIntMap.get(chs2);
+      int digchs3 = charIntMap.get(chs3);
+      if((digchs1 + digchs2 +carry)%10 == digchs3){carry = (digchs1 + digchs2 +carry)/10 ;}
+      else return f;
+      s1i--; s2i-- ; s3i--;
+    }
+    while(s3i >= 0 && s2i >= 0){
+      // char chs1 = s1.charAt(s1i);
+      char chs2 = s2.charAt(s2i);
+      char chs3 = s3.charAt(s3i);
+      // int digchs1 = charIntMap(chs1);
+      int digchs2 = charIntMap.get(chs2);
+      int digchs3 = charIntMap.get(chs3);
+      if((0+ digchs2 +carry)%10 == digchs3){carry = (0 + digchs2 +carry)/10 ;}
+      else return f;
+      s2i-- ; s3i--;
+    }
+    while(s1i >=0 && s3i >= 0){
+      char chs1 = s1.charAt(s1i);
+      // char chs2 = s2.charAt(s2i);
+      char chs3 = s3.charAt(s3i);
+      int digchs1 = charIntMap.get(chs1);
+      // int digchs2 = charIntMap(chs2);
+      int digchs3 = charIntMap.get(chs3);
+      if((digchs1 + 0 +carry)%10 == digchs3){carry = (digchs1 + 0 +carry)/10 ;}
+      else return f;
+      s1i--; s3i--;
+    }
+    
+    if(s3i ==0){
+      if(charIntMap.get(s3.charAt(s3i)) == carry){carry = 0;}
+      else return false;
+    }
+      
+    
+
+    return true;
+  }
+  public static void solution(String unique, int idx, HashMap<Character, Integer> charIntMap, boolean[] usedNumbers, String s1, String s2, String s3) {
+	    // write your code here
+      if(idx== unique.length()){
+        if(satisfied(s1 ,s2 ,s3 ,charIntMap)){
+          for(int i=0 ; i<26 ; i++){
+            char ch = (char)('a'+i);
+            if(charIntMap.containsKey(ch)){
+              System.out.print(ch + "-" +charIntMap.get(ch)+" ");
+            }
+          }
+          System.out.println();
+          
+        }
+        return;
+      }
+      
+      
+      char ch = unique.charAt(idx);
+      for (int i = 0; i < 10; i++) {
+        if(usedNumbers[i] == false){
+          charIntMap.put(ch , i);
+          usedNumbers[i] = true;
+          solution(unique , idx+1 , charIntMap , usedNumbers , s1 ,s2 , s3);
+          charIntMap.put(ch , -1);
+          usedNumbers[i] = false;
+        }
+      }
+  }
+
+}

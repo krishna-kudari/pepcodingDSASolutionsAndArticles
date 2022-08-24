@@ -1,0 +1,42 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  
+  public static void repSelKWord(int cs , int ts , String ustr , int lci , HashMap<Character, Integer> fmap , String asf){
+    if(cs == ts){
+      System.err.println(asf);
+      return ;
+    }
+    for(int i = lci ; i < ustr.length(); i++){
+      char ch = ustr.charAt(i);
+      int freq = fmap.get(ch);
+      if(freq > 0){
+        fmap.put(ch , freq - 1);
+        repSelKWord(cs + 1 , ts , ustr , i , fmap , asf + ch);
+        fmap.put(ch , freq);
+      }
+    }
+  }
+  
+
+  public static void main(String[] args) throws Exception {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String str = br.readLine();
+    int k = Integer.parseInt(br.readLine());
+
+    HashMap<Character, Integer> unique = new HashMap<>();
+    String ustr = "";
+    for (char ch : str.toCharArray()) {
+      if (unique.containsKey(ch) == false) {
+        unique.put(ch, 1);
+        ustr += ch;
+      } else {
+        unique.put(ch, unique.get(ch) + 1);
+      }
+    }
+  repSelKWord(0 , k , ustr , 0 , unique , "");
+    
+  }
+
+}

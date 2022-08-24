@@ -1,0 +1,56 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	public static void solution(String str, int minRemoval, HashSet<String> ans) {
+		//write your code here
+		if(minRemoval == 0){
+			if(getMin(str)==0 && ans.contains(str) == false){
+				ans.add(str);
+				System.out.println(str);
+			}
+			
+			return;
+		}
+		for(int i = 0; i < str.length(); i++){
+			char ch = str.charAt(i);
+			String lh = str.substring(0,i);
+			String rh = str.substring(i+1);
+			String ros = lh + rh;
+			// ans.add(ros);
+			solution(ros , minRemoval-1 , ans);
+			// ans.remove(ros);
+		}
+	}
+
+	public static int getMin(String str){
+		//write your code here
+		Stack<Character> st = new Stack<>();
+		int cnt = 0;
+		for(int i=0 ;i<str.length() ;i++){
+			char ch = str.charAt(i);
+			if(ch == '('){
+				st.push(ch);
+			}else if(ch == ')'){
+				if(st.size() == 0){
+					st.push(ch);
+				}else if(st.peek() == '('){
+					st.pop();
+				}else if(st.peek() == ')'){
+					st.push(ch);
+				}
+			}
+		}
+		cnt += st.size();
+		return cnt;
+	}
+	
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		String str = scn.next();
+		solution(str, getMin(str),new HashSet<>());
+	    // System.out.println(isValid(str));	
+	}
+		
+}

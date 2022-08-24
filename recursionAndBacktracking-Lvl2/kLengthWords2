@@ -1,0 +1,36 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  public static void solve(int ci , int ti , String ustr , String asf , HashSet<Character> used){
+    if(ci > ti){
+      System.out.println(asf);
+      return ;
+    }
+    for(char ch : ustr.toCharArray()){
+      if(used.contains(ch) == false){
+        used.add(ch);
+        solve(ci + 1 , ti , ustr , asf + ch , used );
+        used.remove(ch);  
+      }
+    }
+  }
+ 
+  public static void main(String[] args) throws Exception {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String str = br.readLine();
+    int k = Integer.parseInt(br.readLine());
+
+    HashSet<Character> unique = new HashSet<>();
+    String ustr = "";
+    for (char ch : str.toCharArray()) {
+      if (unique.contains(ch) == false) {
+        unique.add(ch);
+        ustr += ch;
+      }
+    }
+    solve(1 , k , ustr , "" , new HashSet<Character>() );
+   
+  }
+
+}

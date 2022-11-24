@@ -1,1 +1,5 @@
 *.prob
+/node_modules
+gitcommits.js
+package-lock.json
+package.json
